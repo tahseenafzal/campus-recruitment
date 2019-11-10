@@ -3,15 +3,15 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-const auth = require('../middleware/auth');
+const auth = require('../middleware/studentAuth');
 const { check, validationResult } = require("express-validator");
 
-const User = require("../models/User");
+const Student = require("../models/User");
 
-//@route     GET api/v1/auth
-//@desc      Get login user
+//@route     GET api/v1/studentauth
+//@desc      Get login Student user
 //@access    Private
-router.get("/", auth, async (req, res) => {
+router.get("/", studentAuth, async (req, res) => {
   try {
       const user = await User.findById(req.user.id).select('-password');
       res.json(user);
@@ -39,7 +39,7 @@ router.post(
     const { email, password } = req.body;
 
     try {
-      let user = await User.findOne({ email });
+      let student = await User.findOne({ email });
 
       if (!user) {
         return res.status(400).json({ msg: "Invalid Credentials" });
@@ -52,9 +52,9 @@ router.post(
       }
 
       const payload = {
-        user: {
-          id: user.id,
-          usertype: 'admin'
+        company: {
+          id: student.id,
+          usertype: 'student'
         }
       }
       
