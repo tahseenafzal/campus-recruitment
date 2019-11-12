@@ -40,7 +40,7 @@ const postApiParamsSchema = Joi.object({
     .required()
 });
 
-// @route    GET api/v1/students/get-student
+// @route    GET api/v1/students/get-students
 // @desc     Get students
 // @access   Private
 router.get("/get-students", auth, async (req, res) => {

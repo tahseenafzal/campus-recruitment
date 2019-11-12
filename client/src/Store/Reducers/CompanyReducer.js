@@ -1,40 +1,50 @@
-import CompanyActions from "../Actions/CompanyActions";
-import { pending, apiResponded } from "./GeneralState";
-
-const initialState = {
-    isLoading: false,
-    isErorr: false,
-    errorMessage: '',
-    companies: []
-};
-
-function companyReducer(state = initialState, action) {
+import {
+    GET_COMPANIES,
+    ADD_COMPANY,
+    DELETE_COMPANY,
+    COMPANIES_ERROR,
+    SET_LOADING,
+  } from '../Actions/types';
+  
+  const initialState = {
+    companies: null,
+    loading: false,
+    error: null
+  };
+  
+  export default (state = initialState, action) => {
     switch (action.type) {
-        case ComopanyActions.STUDENTS:
-            return {
-                ...state,
-                ...pending()
-            }
-
-        case CompanyActions.COMPANYS_SUCCESSFULL:
-            console.log('action.data',action.data);
-                
+      case GET_COMPANIES:
         return {
-                ...state,
-                ...apiResponded(false, ''),
-                todos: action.data
-            }
-
-
-        case CompanyActions.COMPANYS_FAILED:
-            return {
-                ...state,
-                ...apiResponded(true, 'Something Went Wrong!!!'),
-            }
-
-        default:
-            return state
+          ...state,
+          companies: action.payload,
+          loading: false
+        };
+      case ADD_COMPANY:
+        return {
+          ...state,
+          companies: [...state.companies, action.payload],
+          loading: false
+        };
+      case DELETE_COMPANY:
+        return {
+          ...state,
+          companies: state.companies.filter(company => company.id !== action.payload),
+          loading: false
+        };
+      case SET_LOADING:
+        return {
+          ...state,
+          loading: true
+        };
+      case COMPANIES_ERROR:
+        console.error(action.payload);
+        return {
+          ...state,
+          error: action.payload,
+          loading: false
+        };
+      default:
+        return state;
     }
-};
-
-export default companyReducer;
+  };

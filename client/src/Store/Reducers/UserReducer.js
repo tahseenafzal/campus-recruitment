@@ -1,35 +1,21 @@
 import {
-    GET_JOBS,
-    ADD_JOB,
-    DELETE_JOB,
-    JOBS_ERROR,
+    ADD_USER,
+    USER_ERRORS,
     SET_LOADING
   } from '../Actions/types';
   
   const initialState = {
-    jobs: null,
+    users: null,
     loading: false,
     error: null
   };
   
   export default (state = initialState, action) => {
     switch (action.type) {
-      case GET_JOBS:
+      case ADD_USER:
         return {
           ...state,
-          jobs: action.payload,
-          loading: false
-        };
-      case ADD_JOB:
-        return {
-          ...state,
-          jobs: [...state.jobs, action.payload],
-          loading: false
-        };
-      case DELETE_JOB:
-        return {
-          ...state,
-          jobs: state.jobs.filter(job => job.id !== action.payload),
+          users: [...state.users, action.payload],
           loading: false
         };
       case SET_LOADING:
@@ -37,7 +23,7 @@ import {
           ...state,
           loading: true
         };
-      case JOBS_ERROR:
+      case USER_ERRORS:
         console.error(action.payload);
         return {
           ...state,

@@ -6,9 +6,34 @@ import {
   Button,
   Card
 } from "antd";
+import { connect } from 'react-redux';
+import StudentMiddleware from '../../../Store/Middlewares/StudentMiddleware';
 
 class StudentForm extends Component {
+
+  state = {
+    isLoading: false,
+    errorMessage: "",
+    studets: []
+}
+
+static getDerivedStateFromProps({
+    isLoading,
+    errorMessage,
+    students
+}) {
+    return {
+        isLoading,
+        errorMessage,
+        students
+    }
+}
+componentDidMount() {
+    this.props.getStudents();
+}
+
     render(){
+        const { students, isLoading } = this.state;
         const { getFieldDecorator } = this.props.form;
         return(
             <Card title="Student Details">
@@ -146,6 +171,21 @@ class StudentForm extends Component {
     }
 };
 
+const mapStateToProps = ({
+  studentReducer: { students, isLoading, errorMessage }
+}) => ({
+  students,
+  isLoading,
+  errorMessage
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  getStudents: (data) => dispatch(StudentMiddleware.getStudents(data))
+})
+
 const WrapStudentForm = Form.create({ name: "studentForm" })(StudentForm);
 
-export default WrapStudentForm;
+export default connect(mapStateToProps, mapDispatchToProps)(WrapStudentForm);
+
+
+// export default WrapStudentForm;

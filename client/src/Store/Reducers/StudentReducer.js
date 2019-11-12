@@ -1,40 +1,50 @@
-import StudentActions from "../Actions/StudentActions";
-import { pending, apiResponded } from "./GeneralState";
-
-const initialState = {
-    isLoading: false,
-    isErorr: false,
-    errorMessage: '',
-    students: []
-};
-
-function studentReducer(state = initialState, action) {
+import {
+    GET_STUDENTS,
+    ADD_STUDENT,
+    DELETE_STUDENT,
+    SET_LOADING,
+    STUDENTS_ERROR
+  } from '../Actions/types';
+  
+  const initialState = {
+    students: null,
+    loading: false,
+    error: null
+  };
+  
+  export default (state = initialState, action) => {
     switch (action.type) {
-        case StudentActions.STUDENTS:
-            return {
-                ...state,
-                ...pending()
-            }
-
-        case StudentActions.STUDENTS_SUCCESSFULL:
-            console.log('action.data',action.data);
-                
+      case GET_STUDENTS:
         return {
-                ...state,
-                ...apiResponded(false, ''),
-                todos: action.data
-            }
-
-
-        case StudentActions.STUDENTS_FAILED:
-            return {
-                ...state,
-                ...apiResponded(true, 'Something Went Wrong!!!'),
-            }
-
-        default:
-            return state
+          ...state,
+          students: action.payload,
+          loading: false
+        };
+      case ADD_STUDENT:
+        return {
+          ...state,
+          students: [...state.students, action.payload],
+          loading: false
+        };
+      case DELETE_STUDENT:
+        return {
+          ...state,
+          students: state.students.filter(student => student.id !== action.payload),
+          loading: false
+        };
+      case SET_LOADING:
+        return {
+          ...state,
+          loading: true
+        };
+      case STUDENTS_ERROR:
+        console.error(action.payload);
+        return {
+          ...state,
+          error: action.payload,
+          loading: false
+        };
+      default:
+        return state;
     }
-};
-
-export default studentReducer;
+  };
