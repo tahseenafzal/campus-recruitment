@@ -30,11 +30,11 @@ const postApiParamsSchema = Joi.object({
 // @route    GET api/v1/companies/get-companies
 // @desc     Get companies
 // @access   Private
-router.get("/get-companies", auth, async (req, res) => {
+router.get("/get-companies", async (req, res) => {
   try {
     
     const companies = await Company.find({})
-
+    console.log('this is route of get companies: ', companies)
     // check company if not created by user
     if (companies.length < 1) {
       return res.json({
@@ -60,7 +60,7 @@ router.get("/get-companies", auth, async (req, res) => {
 // @route    POST api/v1/companies/create-company
 // @desc     Create company
 // @access   Private
-router.post("/create-company", auth, async (req, res) => {
+router.post("/create-company", async (req, res) => {
   // destructure body
   const { name, address, person, email, phone, fax, url } = req.body;
 
@@ -81,6 +81,25 @@ router.post("/create-company", auth, async (req, res) => {
     });
   }
 
+  //check name in database
+  let isName = await Company.findOne({ name });
+  console.log('company name:', isName);
+  if(isName){
+    return res.status(400).json({
+      success: false,
+      message: "Company already exists"
+    });
+  }
+
+  //check email in database
+  let isEmail = await Company.findOne({email});
+  if (isEmail){
+    return res.status(400).json({
+      success: false,
+      message: "email address already exists"
+    });
+  }
+
   try {
     // create company
     let company = await new Company({
@@ -91,7 +110,7 @@ router.post("/create-company", auth, async (req, res) => {
       phone,
       fax,
       url,
-      user: req.user.id
+      // user: req.user.id
     });
 
     // save company to database

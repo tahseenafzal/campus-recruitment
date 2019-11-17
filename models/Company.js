@@ -42,11 +42,11 @@ const CompanySchema = new Schema({
     required: true,
     trim: true,
     lowercase: true
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'users'
   }
+  // user: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'users'
+  // }
 }, {
     timestamps: true
 });

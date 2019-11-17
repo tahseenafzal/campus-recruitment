@@ -7,7 +7,7 @@ import {
   } from '../Actions/types';
   
   const initialState = {
-    jobs: null,
+    jobs: [],
     loading: false,
     error: null
   };

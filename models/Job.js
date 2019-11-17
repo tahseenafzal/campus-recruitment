@@ -19,11 +19,11 @@ const JobSchema = new Schema({
     required: true,
     trim: true,
     lowercase: true
-  },
-  company: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'companies'
   }
+  // company: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'companies'
+  // }
 },{
   timestamps: true
 });

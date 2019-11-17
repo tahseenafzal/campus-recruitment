@@ -60,11 +60,11 @@ const StudentSchema = new Schema({
     type: Number,
     required:true,
     trim: true
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'users'
   }
+  // user: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'users'
+  // }
 }, {
     timestamps: true
 });

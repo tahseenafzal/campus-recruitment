@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
-
 const Student = require("../models/Student");
 const auth = require("../middleware/auth");
 
@@ -43,7 +42,7 @@ const postApiParamsSchema = Joi.object({
 // @route    GET api/v1/students/get-students
 // @desc     Get students
 // @access   Private
-router.get("/get-students", auth, async (req, res) => {
+router.get("/get-students", async (req, res) => {
   try {
     const students = await Student.find({});
 
@@ -72,16 +71,27 @@ router.get("/get-students", auth, async (req, res) => {
 // @route    POST api/v1/students/create-student
 // @desc     Create student
 // @access   Private
-router.post("/create-student", auth, async (req, res) => {
+router.post("/create-student", async (req, res) => {
   // destructure body
-  const { firstname, lastname, gender, address, qualification, skills, hobies, email, mobile, home } = req.body;
+  const {
+    firstname,
+    lastname,
+    gender,
+    address,
+    qualification,
+    skills,
+    hobies,
+    email,
+    mobile,
+    home
+  } = req.body;
 
   // validate api params
   const { error } = postApiParamsSchema.validate({
     firstname,
     lastname,
     gender,
-    address, 
+    address,
     qualification,
     skills,
     hobies,
@@ -92,7 +102,17 @@ router.post("/create-student", auth, async (req, res) => {
   if (error) {
     return res.status(400).json({
       success: false,
-      message: error.details[0].message
+      message: error.message
+    });
+  }
+
+  //Check for duplicate email address. 
+  let isEmail = await Student.findOne({ email });
+
+  if (isEmail) {
+    return res.status(400).json({
+      success: false,
+      message: "email address already exists"
     });
   }
 
@@ -108,8 +128,8 @@ router.post("/create-student", auth, async (req, res) => {
       hobies,
       email,
       mobile,
-      home,
-      user: req.user.id
+      home
+      // user: req.user.id
     });
 
     // save student to database
@@ -119,8 +139,7 @@ router.post("/create-student", auth, async (req, res) => {
 
     return res.json({
       success: true,
-      message: "Student created successfully",
-      student
+      message: "Student created successfully"
     });
   } catch (error) {
     console.log("Error:", error.message);

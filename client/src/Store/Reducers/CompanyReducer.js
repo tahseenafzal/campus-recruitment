@@ -7,7 +7,7 @@ import {
   } from '../Actions/types';
   
   const initialState = {
-    companies: null,
+    companies: [],
     loading: false,
     error: null
   };

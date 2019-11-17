@@ -4,7 +4,8 @@ import {
     DELETE_JOB,
     JOBS_ERROR,
     SET_LOADING,
-    UPDATE_JOB
+    UPDATE_JOB,
+    SEARCH_JOBS
   } from './types';
   
   // Get jobs from server
@@ -12,7 +13,7 @@ import {
     try {
       setLoading();
   
-      const res = await fetch('/get-jobs');
+      const res = await fetch('http://localhost:5000/api/v1/jobs/get-jobs');
       const data = await res.json();
   
       dispatch({
@@ -22,7 +23,7 @@ import {
     } catch (err) {
       dispatch({
         type: JOBS_ERROR,
-        payload: err.response.statusText
+        payload: err.message
       });
     }
   };
@@ -32,7 +33,7 @@ import {
     try {
       setLoading();
   
-      const res = await fetch('/create-job', {
+      const res = await fetch('http://localhost:5000/api/v1/jobs/create-job', {
         method: 'POST',
         body: JSON.stringify(job),
         headers: {
@@ -40,7 +41,7 @@ import {
         }
       });
       const data = await res.json();
-  
+      console.log('this is job add action:',data)
       dispatch({
         type: ADD_JOB,
         payload: data
@@ -48,7 +49,7 @@ import {
     } catch (err) {
       dispatch({
         type: JOBS_ERROR,
-        payload: err.response.statusText
+        payload: err.message
       });
     }
   };
@@ -58,7 +59,7 @@ export const updateJob = job => async dispatch => {
   try {
     setLoading();
 
-    const res = await fetch(`/update-job/${log.id}`, {
+    const res = await fetch(`/update-job/${job.id}`, {
       method: 'PUT',
       body: JSON.stringify(job),
       headers: {
@@ -75,27 +76,27 @@ export const updateJob = job => async dispatch => {
   } catch (err) {
     dispatch({
       type: JOBS_ERROR,
-      payload: err.response.statusText
+      payload: err.message
     });
   }
 };
 
 // Search server jobs
-export const searchStudent = text => async dispatch => {
+export const searchJob = text => async dispatch => {
   try {
     setLoading();
 
-    const res = await fetch(`/get-students?q=${text}`);
+    const res = await fetch(`/get-jobs?q=${text}`);
     const data = await res.json();
 
     dispatch({
-      type: SEARCH_STUDENTS,
+      type: SEARCH_JOBS,
       payload: data
     });
   } catch (err) {
     dispatch({
-      type: STUDENTS_ERROR,
-      payload: err.response.statusText
+      type: JOBS_ERROR,
+      payload: err.message
     });
   }
 };
@@ -118,7 +119,7 @@ export const searchStudent = text => async dispatch => {
     } catch (err) {
       dispatch({
         type: JOBS_ERROR,
-        payload: err.response.statusText
+        payload: err.message
       });
     }
   };

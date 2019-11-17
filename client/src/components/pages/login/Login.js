@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Tooltip, Input,  Radio, Button, Icon, Card, Checkbox } from "antd";
+import { Form, Input,  Radio, Button, Icon, Card, Checkbox } from "antd";
 import login from './login.png'
 import loginImage from './loginImage.jpg'
 
@@ -67,13 +67,13 @@ class Login extends Component {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
+          <a className="login-form-forgot" href="#">
             Forgot password
           </a>
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or <a href="#">register now!</a>
         </Form.Item>
           </Form>
         </Card>

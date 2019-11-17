@@ -13,9 +13,9 @@ export const getCompanies = () => async dispatch => {
   try {
     setLoading();
 
-    const res = await fetch("/get-companies");
+    const res = await fetch("http://localhost:5000/api/v1/companies/get-companies");
     const data = await res.json();
-
+    console.log('date from action: ', data)
     dispatch({
       type: GET_COMPANIES,
       payload: data
@@ -23,7 +23,7 @@ export const getCompanies = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: COMPANIES_ERROR,
-      payload: err.response.statusText
+      payload: err.message
     });
   }
 };
@@ -33,7 +33,7 @@ export const addCompany = company => async dispatch => {
   try {
     setLoading();
 
-    const res = await fetch("/create-company", {
+    const res = await fetch("http://localhost:5000/api/v1/companies/create-company", {
       method: "POST",
       body: JSON.stringify(company),
       headers: {
@@ -41,7 +41,7 @@ export const addCompany = company => async dispatch => {
       }
     });
     const data = await res.json();
-
+    console.log('company action', data);
     dispatch({
       type: ADD_COMPANY,
       payload: data
@@ -49,7 +49,7 @@ export const addCompany = company => async dispatch => {
   } catch (err) {
     dispatch({
       type: COMPANIES_ERROR,
-      payload: err.response.statusText
+      payload: err.message
     });
   }
 };
@@ -59,7 +59,7 @@ export const updateCompany = company => async dispatch => {
   try {
     setLoading();
 
-    const res = await fetch(`/update-company/${log.id}`, {
+    const res = await fetch(`/update-company/${company.id}`, {
       method: 'PUT',
       body: JSON.stringify(company),
       headers: {
@@ -76,7 +76,7 @@ export const updateCompany = company => async dispatch => {
   } catch (err) {
     dispatch({
       type: COMPANIES_ERROR,
-      payload: err.response.statusText
+      payload: err.message
     });
   }
 };
@@ -96,7 +96,7 @@ export const searchCompanies = text => async dispatch => {
   } catch (err) {
     dispatch({
       type: COMPANIES_ERROR,
-      payload: err.response.statusText
+      payload: err.message
     });
   }
 };
@@ -117,7 +117,7 @@ export const deleteCompany = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: COMPANIES_ERROR,
-      payload: err.response.statusText
+      payload: err.message
     });
   }
 };

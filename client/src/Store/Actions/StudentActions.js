@@ -13,7 +13,7 @@ import {
     try {
       setLoading();
   
-      const res = await fetch('/get-students');
+      const res = await fetch('http://localhost:5000/api/v1/students/get-students');
       const data = await res.json();
   
       dispatch({
@@ -23,17 +23,18 @@ import {
     } catch (err) {
       dispatch({
         type: STUDENTS_ERROR,
-        payload: err.response.statusText
+        payload: err.message
       });
     }
   };
   
   // Add student to server
   export const addStudent = student => async dispatch => {
+    
     try {
       setLoading();
   
-      const res = await fetch('/create-student', {
+      const res = await fetch('http://localhost:5000/api/v1/students/create-student', {
         method: 'POST',
         body: JSON.stringify(student),
         headers: {
@@ -41,7 +42,7 @@ import {
         }
       });
       const data = await res.json();
-  
+      console.log('students actions: i am here.', data)
       dispatch({
         type: ADD_STUDENT,
         payload: data
@@ -49,7 +50,7 @@ import {
     } catch (err) {
       dispatch({
         type: STUDENTS_ERROR,
-        payload: err.response.statusText
+        payload: err.message
       });
     }
   };
@@ -59,7 +60,7 @@ export const updateStudent = student => async dispatch => {
   try {
     setLoading();
 
-    const res = await fetch(`/update-student/${log.id}`, {
+    const res = await fetch(`/update-student/${student.id}`, {
       method: 'PUT',
       body: JSON.stringify(student),
       headers: {
@@ -76,7 +77,7 @@ export const updateStudent = student => async dispatch => {
   } catch (err) {
     dispatch({
       type: STUDENTS_ERROR,
-      payload: err.response.statusText
+      payload: err.message
     });
   }
 };
@@ -96,7 +97,7 @@ export const searchStudent = text => async dispatch => {
   } catch (err) {
     dispatch({
       type: STUDENTS_ERROR,
-      payload: err.response.statusText
+      payload: err.message
     });
   }
 };
@@ -118,7 +119,7 @@ export const searchStudent = text => async dispatch => {
     } catch (err) {
       dispatch({
         type: STUDENTS_ERROR,
-        payload: err.response.statusText
+        payload: err.message
       });
     }
   };

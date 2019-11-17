@@ -13,10 +13,10 @@ const JWT_SECRET = process.env.JWT_SECRET || config.get("JWT_SECRET");
 // api params schema for validation
 const apiParamsSchema = Joi.object({
   username: Joi.string().required(),
+  email: Joi.string().required(),
   password: Joi.string()
     .min(8)
     .required(),
-  email: Joi.string().required(),
   usertype: Joi.string().required()
 });
 
@@ -24,6 +24,7 @@ const apiParamsSchema = Joi.object({
 // @desc     Register user
 // @access   Public
 router.post("/register", async (req, res) => {
+//  console.log(state.users)
   // destructure username & password
   let { username, password, email, usertype } = req.body;
   // lowercase username
@@ -31,6 +32,7 @@ router.post("/register", async (req, res) => {
   email = email.toLowerCase();
 
   try {
+
     // validate api params
     const { error } = apiParamsSchema.validate({
       username,
@@ -38,24 +40,27 @@ router.post("/register", async (req, res) => {
       email,
       usertype
     });
+
     if (error) {
       return res.status(400).json({
         success: false,
-        message: error.details[0].message
+        message: error.message
       });
     }
 
     // check username in database before creating new user
-    let user = await User.findOne({ username });
-    if (user) {
+    let isUser = await User.findOne({ username });
+    if (isUser) {
       return res.status(400).json({
         success: false,
         message: "Username already exists"
       });
     }
 
-    let email = await User.findOne({ email });
-    if (email) {
+    let isEmail = await User.findOne({ email });
+
+
+    if (isEmail) {
       return res.status(400).json({
         success: false,
         message: "email address already exists"

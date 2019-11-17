@@ -7,7 +7,7 @@ import {
   } from '../Actions/types';
   
   const initialState = {
-    students: null,
+    students: [],
     loading: false,
     error: null
   };

@@ -5,18 +5,22 @@ import {
   } from '../Actions/types';
   
   const initialState = {
-    users: null,
+    users: [],
     loading: false,
-    error: null
+    error: '',
+    success: false
   };
   
   export default (state = initialState, action) => {
+    console.log('action data',state)
     switch (action.type) {
       case ADD_USER:
         return {
           ...state,
-          users: [...state.users, action.payload],
+          users: [...state.users, ...action.payload],
+          success: true,
           loading: false
+          // errorMessage: action.payload
         };
       case SET_LOADING:
         return {
@@ -24,9 +28,9 @@ import {
           loading: true
         };
       case USER_ERRORS:
-        console.error(action.payload);
+        console.error('user errors: ',action.payload);
         return {
-          ...state,
+          // ...state,
           error: action.payload,
           loading: false
         };

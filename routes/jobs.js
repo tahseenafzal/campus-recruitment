@@ -16,11 +16,11 @@ const postApiParamsSchema = Joi.object({
 // @route    GET api/v1/jobs/get-jobs
 // @desc     Get jobs
 // @access   Private
-router.get('/get-jobs', auth, async (req, res) => {
+router.get('/get-jobs', async (req, res) => {
 
     try {
-        const jobs = await Job.find({ Company: { $in: req.user.id } }).populate('date', { date: 0 });
-
+        // const jobs = await Job.find({ Company: { $in: req.user.id } }).populate('date', { date: 0 });
+        const jobs = await Job.find({});
         // check job if not created by user
         if (jobs.length < 1) {
             return res.json({
@@ -48,7 +48,7 @@ router.get('/get-jobs', auth, async (req, res) => {
 // @route    POST api/v1/jobs/create-job
 // @desc     Create job
 // @access   Private
-router.post('/create-job', auth, async (req, res) => {
+router.post('/create-job', async (req, res) => {
 
     // destructure body
     const { title, description, requirement } = req.body;
@@ -58,7 +58,7 @@ router.post('/create-job', auth, async (req, res) => {
     if (error) {
         return res.status(400).json({
             success: false,
-            message: error.details[0].message
+            message: error.message
         });
     }
 
@@ -68,7 +68,7 @@ router.post('/create-job', auth, async (req, res) => {
             title,
             description,
             requirement,
-            company: req.user.id,
+            // company: req.user.id,
         });
 
         // save job to database
