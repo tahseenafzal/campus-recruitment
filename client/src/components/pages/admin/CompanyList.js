@@ -53,7 +53,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCompanies: data => dispatch(getCompanies(data))
+    getCompanies: () => dispatch(getCompanies())
   };
 };
 

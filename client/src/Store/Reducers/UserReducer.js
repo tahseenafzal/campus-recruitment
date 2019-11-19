@@ -12,7 +12,6 @@ import {
   };
   
   export default (state = initialState, action) => {
-    console.log('action data',state)
     switch (action.type) {
       case ADD_USER:
         return {
@@ -28,7 +27,6 @@ import {
           loading: true
         };
       case USER_ERRORS:
-        console.error('user errors: ',action.payload);
         return {
           // ...state,
           error: action.payload,

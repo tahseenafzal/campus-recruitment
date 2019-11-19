@@ -151,7 +151,7 @@ router.put('/update-job/:id', auth, async (req, res) => {
 // @route    DELETE api/v1/jobs/delete-job/:id
 // @desc     delete job
 // @access   Private
-router.delete('/delete-job/:id', auth, async (req, res) => {
+router.delete('/delete-job/:id', async (req, res) => {
 
     // validate object ID
     const isValidObjectId = mongoose.Types.ObjectId.isValid(req.params.id);

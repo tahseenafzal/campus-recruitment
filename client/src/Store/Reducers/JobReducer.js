@@ -15,6 +15,7 @@ import {
   export default (state = initialState, action) => {
     switch (action.type) {
       case GET_JOBS:
+        console.log('tehseen ',action.payload);
         return {
           ...state,
           jobs: action.payload,

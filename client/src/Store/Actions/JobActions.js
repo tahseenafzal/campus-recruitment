@@ -10,12 +10,11 @@ import {
   
   // Get jobs from server
   export const getJobs = () => async dispatch => {
+    
     try {
       setLoading();
-  
       const res = await fetch('http://localhost:5000/api/v1/jobs/get-jobs');
       const data = await res.json();
-  
       dispatch({
         type: GET_JOBS,
         payload: data
@@ -108,7 +107,7 @@ export const searchJob = text => async dispatch => {
     try {
       setLoading();
   
-      await fetch(`/delete-job/${id}`, {
+      await fetch(`http://localhost:5000/api/v1/jobs/delete-job/${id}`, {
         method: 'DELETE'
       });
   

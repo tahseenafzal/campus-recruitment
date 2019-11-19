@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { List, Card } from "antd";
 import { getJobs } from "../../../Store/Actions/JobActions";
+import { List, Card } from "antd";
 import { connect } from "react-redux";
+import JobItem from "../jobs/JobItem";
+
 
 class JobList extends Component {
   state = {
@@ -11,7 +13,7 @@ class JobList extends Component {
 
   static getDerivedStateFromProps({ jobs, loading }) {
     return {
-      jobs, 
+      jobs,
       loading
     };
   }
@@ -21,22 +23,24 @@ class JobList extends Component {
   }
 
   render() {
-        
     const data = this.state.jobs;
-    
-    return ( 
-      <Card titl="Job List">
+    console.log('component state', this.state)
+    console.log(data)
+    return (
+      <Card className="card" titl="Jobs List">
         <List
           grid={{ gutter: 16, column: 4 }}
           dataSource={data}
           renderItem={item => (
             <List.Item>
-              <Card title={item.title}>
-                <p>{item.description}</p>
-                <p>{item.requirement}</p>
-              </Card>
-            </List.Item>)
-          }
+              <JobItem
+                id={item._id}
+                title={item.title}
+                description={item.description}
+                requirement={item.requirement}
+              />
+            </List.Item>
+          )}
         />
       </Card>
     );
@@ -44,6 +48,7 @@ class JobList extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log('this is state', state)
   return {
     jobs: state.job.jobs.jobs,
     loading: state.job.loading
@@ -52,7 +57,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getJobs: data => dispatch(getJobs(data))
+    getJobs: () => dispatch(getJobs())
   };
 };
 
