@@ -36,6 +36,13 @@
   overflow: auto;
 }
 
+.loader-page {
+  height: 80vh;
+  overflow: auto;
+  display: flexbox;
+  align-content: center;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;

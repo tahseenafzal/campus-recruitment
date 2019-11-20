@@ -8,8 +8,9 @@ import {
   
   const initialState = {
     companies: [],
-    loading: false,
-    error: null
+    loading: true,
+    error: null,
+    id: ''
   };
   
   export default (state = initialState, action) => {
@@ -29,8 +30,9 @@ import {
       case DELETE_COMPANY:
         return {
           ...state,
-          companies: state.companies.filter(company => company.id !== action.payload),
-          loading: false
+          // companies: state.companies.filter(company => company.id !== action.payload),
+          loading: false,
+          id: action.payload
         };
       case SET_LOADING:
         return {

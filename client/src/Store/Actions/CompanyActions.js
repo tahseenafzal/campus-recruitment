@@ -106,7 +106,7 @@ export const deleteCompany = id => async dispatch => {
   try {
     setLoading();
 
-    await fetch(`/delete-company/${id}`, {
+    await fetch(`http://localhost:5000/api/v1/companies/delete-company/${id}`, {
       method: "DELETE"
     });
 

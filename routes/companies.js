@@ -201,7 +201,7 @@ router.put("/update-company/:id", auth, async (req, res) => {
 // @route    DELETE api/v1/companies/delete-company/:id
 // @desc     delete company
 // @access   Private
-router.delete("/delete-company/:id", auth, async (req, res) => {
+router.delete("/delete-company/:id", async (req, res) => {
   // validate object ID
   const isValidObjectId = mongoose.Types.ObjectId.isValid(req.params.id);
   if (!isValidObjectId) {

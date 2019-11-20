@@ -8,7 +8,7 @@ import {
   
   const initialState = {
     jobs: [],
-    loading: false,
+    loading: true,
     error: null
   };
   

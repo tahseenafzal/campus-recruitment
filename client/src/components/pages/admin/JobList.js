@@ -3,7 +3,7 @@ import { getJobs } from "../../../Store/Actions/JobActions";
 import { List, Card } from "antd";
 import { connect } from "react-redux";
 import JobItem from "../jobs/JobItem";
-
+import Loader from "../../layout/Loader";
 
 class JobList extends Component {
   state = {
@@ -23,14 +23,13 @@ class JobList extends Component {
   }
 
   render() {
-    const data = this.state.jobs;
-    console.log('component state', this.state)
-    console.log(data)
-    return (
+    const {jobs, loading} = this.state;
+    return ( 
       <Card className="card" titl="Jobs List">
+        {loading ? <Loader /> :
         <List
           grid={{ gutter: 16, column: 4 }}
-          dataSource={data}
+          dataSource={jobs}
           renderItem={item => (
             <List.Item>
               <JobItem
@@ -42,13 +41,13 @@ class JobList extends Component {
             </List.Item>
           )}
         />
+        }
       </Card>
     );
   }
 }
 
 const mapStateToProps = state => {
-  console.log('this is state', state)
   return {
     jobs: state.job.jobs.jobs,
     loading: state.job.loading

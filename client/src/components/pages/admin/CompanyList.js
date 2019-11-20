@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { List, Card } from "antd";
 import { getCompanies } from "../../../Store/Actions/CompanyActions";
 import { connect } from "react-redux";
+import Loader from "../../layout/Loader";
+import CompanyItem from "../company/CompanyItem";
 
 class CompanyList extends Component {
   state = {
@@ -21,33 +23,42 @@ class CompanyList extends Component {
   }
 
   render() {
-    const data = this.state.companies;
+    const { companies, loading } = this.state;
+    console.log("loading value: ", loading);
+    console.log("this is component state value: ", companies)
     return (
       <Card className="card" titl="Companies List">
-        <List
-          grid={{ gutter: 16, column: 4 }}
-          dataSource={data}
-          renderItem={item => (
-            <List.Item>
-              <Card className="card" title={item.name}>
-                <h3>{item.address}</h3>
-                <p>Email: {item.email}</p>
-                <br />
-                <p>Contact: {item.phone}</p>
-                <p>Website: {item.url}</p>
-              </Card>
-            </List.Item>
-          )}
-        />
+        {loading ? 
+          <Loader />
+         : 
+          <List
+            grid={{ gutter: 16, column: 4 }}
+            dataSource={companies}
+            renderItem={item => (
+              <List.Item>
+                <CompanyItem 
+                  id={item._id}
+                  name={item.name}
+                  address={item.address}
+                  email={item.email}
+                  contact={item.contact}
+                  url={item.url}
+                />
+              </List.Item>
+            )}
+          />
+        }
       </Card>
     );
   }
 }
 
 const mapStateToProps = state => {
+  console.log("state data from props: ", state);
   return {
     companies: state.company.companies.companies,
-    loading: state.company.loading
+    loading: state.company.loading,
+    companyId: state.company.id
   };
 };
 
