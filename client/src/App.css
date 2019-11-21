@@ -31,7 +31,7 @@
   height: 80vh;
 }
 
-.content-page {
+.page {
   height: 80vh;
   overflow: auto;
 }
@@ -255,6 +255,7 @@ img {
   background: #ECECEC; 
   padding: 20px;
   align-items: center;
+  overflow: auto;
 }
 
 .login-card {

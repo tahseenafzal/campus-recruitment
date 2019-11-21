@@ -108,7 +108,7 @@ export const searchStudent = text => async dispatch => {
     try {
       setLoading();
   
-      await fetch(`/delete-student/${id}`, {
+      await fetch(`http://localhost:5000/api/v1/students/delete-student/${id}`, {
         method: 'DELETE'
       });
   

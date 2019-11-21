@@ -7,8 +7,8 @@ import {
   } from '../Actions/types';
   
   const initialState = {
-    students: [],
-    loading: false,
+    students: {},
+    loading: true,
     error: null
   };
   
@@ -21,15 +21,16 @@ import {
           loading: false
         };
       case ADD_STUDENT:
+        console.log(action.payload);
         return {
           ...state,
-          students: [...state.students, action.payload],
+          students: [...state.jobs, action.payload],
           loading: false
         };
       case DELETE_STUDENT:
         return {
           ...state,
-          students: state.students.filter(student => student.id !== action.payload),
+          students: students.filter(student => student.id !== action.payload),
           loading: false
         };
       case SET_LOADING:

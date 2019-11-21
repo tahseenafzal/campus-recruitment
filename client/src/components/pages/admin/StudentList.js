@@ -2,45 +2,54 @@ import React, { Component } from "react";
 import { List, Card } from "antd";
 import { getStudents } from "../../../Store/Actions/StudentActions";
 import { connect } from "react-redux";
+import StudentItem from "../student/StudentItem";
+import Loader from "../../layout/Loader";
+import { Capitalize } from "../../../helpers/utilities";
 
 class StudentList extends Component {
   state = {
     loading: true,
-    students: []
+    students: {}
   };
 
   static getDerivedStateFromProps({ students, loading }) {
     return {
-      students, 
+      students,
       loading
     };
   }
+
 
   componentDidMount() {
     this.props.getStudents();
   }
 
   render() {
-        
-    const data = this.state.students;
-    console.log(data);    
-    return ( 
-      <Card titl="Students List">
-        <List
-          grid={{ gutter: 16, column: 4 }}
-          dataSource={data}
-          renderItem={item => (
-            <List.Item>
-              <Card className="card" title={item.firstname + " " + item.lastname}>
-                <h3>{item.qualification}</h3>
-          <p>Email: {item.email}</p>
-                <br/>
-                <p>Address: {item.address}</p>
-                <p>Mobile: {item.mobile}</p>
-              </Card>
-            </List.Item>)
-          }
-        />
+    const { students, loading } = this.state;
+    return (
+      <Card title="Students List">
+        {loading ? (
+          <Loader />
+        ) : (
+          <List
+            grid={{ gutter: 16, column: 4 }}
+            dataSource={students}
+            renderItem={item => (
+              <List.Item>
+                <StudentItem
+                  id={item._id}
+                  qualification={Capitalize(item.qualification)}
+                  name={Capitalize(item.firstname) + " " + Capitalize(item.lastname)}
+                  email={item.email}
+                  contact={"0" + item.mobile}
+                  home={item.home}
+                  address={Capitalize(item.address)}
+                  updateStudents={this.updateStudents}
+                />
+              </List.Item>
+            )}
+          />
+        )}
       </Card>
     );
   }

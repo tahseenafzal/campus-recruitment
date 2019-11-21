@@ -133,11 +133,12 @@ router.post("/create-student", async (req, res) => {
     });
 
     // save student to database
-    await student.save();
+    const data = await student.save();
     // populate created student
     // student = await Student.populate("createdBy", { user: 0 }).execPopulate();
 
     return res.json({
+      data,
       success: true,
       message: "Student created successfully"
     });
@@ -234,7 +235,7 @@ router.put("/update-student/:id", auth, async (req, res) => {
 // @route    DELETE api/v1/students/delete-student/:id
 // @desc     delete student
 // @access   Private
-router.delete("/delete-student/:id", auth, async (req, res) => {
+router.delete("/delete-student/:id", async (req, res) => {
   // validate object ID
   const isValidObjectId = mongoose.Types.ObjectId.isValid(req.params.id);
   if (!isValidObjectId) {

@@ -4,6 +4,7 @@ import { List, Card } from "antd";
 import { connect } from "react-redux";
 import JobItem from "../jobs/JobItem";
 import Loader from "../../layout/Loader";
+import { Capitalize, titleCase } from "../../../helpers/utilities";
 
 class JobList extends Component {
   state = {
@@ -25,7 +26,7 @@ class JobList extends Component {
   render() {
     const {jobs, loading} = this.state;
     return ( 
-      <Card className="card" titl="Jobs List">
+      <Card className="card" title="Jobs List">
         {loading ? <Loader /> :
         <List
           grid={{ gutter: 16, column: 4 }}
@@ -34,9 +35,9 @@ class JobList extends Component {
             <List.Item>
               <JobItem
                 id={item._id}
-                title={item.title}
-                description={item.description}
-                requirement={item.requirement}
+                title={titleCase(item.title)}
+                description={Capitalize(item.description)}
+                requirement={Capitalize(item.requirement)}
               />
             </List.Item>
           )}

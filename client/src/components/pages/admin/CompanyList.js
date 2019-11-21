@@ -4,6 +4,7 @@ import { getCompanies } from "../../../Store/Actions/CompanyActions";
 import { connect } from "react-redux";
 import Loader from "../../layout/Loader";
 import CompanyItem from "../company/CompanyItem";
+import { Capitalize, titleCase } from "../../../helpers/utilities";
 
 class CompanyList extends Component {
   state = {
@@ -24,10 +25,8 @@ class CompanyList extends Component {
 
   render() {
     const { companies, loading } = this.state;
-    console.log("loading value: ", loading);
-    console.log("this is component state value: ", companies)
     return (
-      <Card className="card" titl="Companies List">
+      <Card className="card" title="Companies List">
         {loading ? 
           <Loader />
          : 
@@ -38,8 +37,8 @@ class CompanyList extends Component {
               <List.Item>
                 <CompanyItem 
                   id={item._id}
-                  name={item.name}
-                  address={item.address}
+                  name={titleCase(item.name)}
+                  address={Capitalize(item.address)}
                   email={item.email}
                   contact={item.contact}
                   url={item.url}
